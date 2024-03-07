@@ -5804,7 +5804,7 @@ react-is@^17.0.1:
 
 react-native-ble-manager@^11.3.2:
   version "11.3.2"
-  resolved "https://registry.npmjs.org/react-native-ble-manager/-/react-native-ble-manager-11.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-ble-manager/-/react-native-ble-manager-11.3.2.tgz#541a0dfdcba047e660d53e08eb9f3f6656b4465d"
   integrity sha512-+xkiEBbFMyIbBQa+bIE99fNq2nRpTOTcK2XIcX7Dc1kNKY/jqEmspPqARggGjcXdjgwHkTuWsD+7BU7yiQFCQA==
 
 react-native-ble-plx@^3.1.2:

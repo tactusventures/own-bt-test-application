@@ -138,6 +138,7 @@ console.log({deviceId});
 
                 try {
                     data = JSON.parse(data);
+                    console.log({data});
 
                     if (data && data["Data"] && data["Data"]["Spo2"] === undefined) {
                         // if (shoesData.right.connected) {

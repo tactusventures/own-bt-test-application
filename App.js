@@ -1,22 +1,15 @@
 import { Provider } from "react-redux";
 import { store } from "./src/store/store";
-import { Text, View } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AddDevice from "./src/screens/AddDevice";
+import NavigationProvider from "./src/navigator/NavigationProvider";
+import BleManager from 'react-native-ble-manager';
 
-
-const Stack = createStackNavigator();
-
+BleManager.start({showAlert: false});
 
 const App = () => {
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-           <Stack.Screen name="Home" component={AddDevice} />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationProvider/>
     </Provider>
   );
 };
