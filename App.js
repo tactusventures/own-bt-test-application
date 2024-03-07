@@ -3,7 +3,7 @@ import { store } from "./src/store/store";
 import { Text, View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AddDevice from "./src/store/screens/AddDevice";
+import AddDevice from "./src/screens/AddDevice";
 
 
 const Stack = createStackNavigator();

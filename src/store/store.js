@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import deviceSlice from './deviceSlice';
+import shoeSlice from './shoeSlice';
 
 
-export const store =configureStore({
-    reducer:{
-        shoes: deviceSlice
+export const store = configureStore({
+    reducer: {
+        shoes: shoeSlice,
     }
 });
