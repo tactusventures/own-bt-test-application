@@ -43,7 +43,7 @@ const HealthAnalyzer = () => {
     const selectedItem = data.find(dataItem => dataItem.title === title);
     if (selectedItem) {
       console.log(selectedItem);
-      // navigation.navigate('MeasureBpm', {selectedItem});
+      navigation.navigate('MeasureBpm', {selectedItem});
       // navigation.navigate('MonitorMesurement', {selectedItem});
     } else {
       console.log(`Data not found for ${title}`);

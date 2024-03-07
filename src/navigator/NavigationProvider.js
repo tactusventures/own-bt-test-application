@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { manager } from '../utils/bluetooth/bluetoothManager';
 import AddDevice from '../screens/AddDevice';
 import HealthAnalyzer from '../screens/HealthAnalyzer';
+import MeasureBpm from '../screens/MeasureBpm';
 const Stack = createStackNavigator();
 
 
@@ -67,6 +68,9 @@ const NavigationProvider = () => {
                     options={{ headerShown: false }} />
                 <Stack.Screen name="HealthAnalyzer"
                     component={HealthAnalyzer}
+                    options={{ headerShown: false }} />
+                <Stack.Screen name="MeasureBpm"
+                    component={MeasureBpm}
                     options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
