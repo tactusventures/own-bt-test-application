@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   monitorTitle: {
     fontFamily: fonts.regular,
     color: colors.white,
-    fontSize: 30,
+    fontSize: 50,
   },
   heartRateImg: {
     width: '40%',

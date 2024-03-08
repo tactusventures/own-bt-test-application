@@ -105,6 +105,7 @@ const MeasureBpm = ({ route }) => {
                 console.log(data['Data']);
                 updateUi(data['Data']['Spo2']);
               } else if (selectedItem.title === 'temprature') {
+                console.log(data["Data"]["Temp"]); 
                 updateUi(data['Data']['Temp']);
               }
             } catch (error) {
@@ -144,12 +145,12 @@ const MeasureBpm = ({ route }) => {
         <Header />
         <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.monitorTitleInfo}>
-            <Text style={styles.monitorText}>{labels.monitorinig}</Text>
+           
             <Text style={styles.monitorTitle}>{selectedItem.title}</Text>
           </View>
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
-            <Text style={{fontWeight:'700'}}>
-              Value:{sensorData}
+            <Text style={{fontWeight:'700', fontSize: 90, color: 'white'}}>
+             {sensorData}
             </Text>
           </View>
           {/* 

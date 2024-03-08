@@ -147,8 +147,6 @@ console.log({deviceId});
                         //   return
                         // };
 
-
-
                         if (!isSeted) {
                             shoesData.right.connected = true;
                             shoesData.right.device = currentDevice;
@@ -243,7 +241,7 @@ console.log({deviceId});
                 end={{ x: 1, y: 1 }}
                 colors={['#171717cc', '#171717cc', '#171717']}
                 style={styles.mainContent}>
-                <Header />
+                {/* <Header /> */}
                 <ScrollView contentContainerStyle={styles.mainContainer}>
                     <View
                         style={{
@@ -293,7 +291,8 @@ console.log({deviceId});
                         <Text style={{ color: 'white', fontSize: 15 }}>Connected Devices: </Text>
 
                         {
-                            devices.left.connected === true ? <TouchableOpacity
+                            devices.left.connected === true ?
+                             <TouchableOpacity
                                 style={styles.container}
                                 pointerEvents="auto">
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: colors.glassEffect, borderRadius: 4, paddingHorizontal: 10 }}>
@@ -339,14 +338,54 @@ console.log({deviceId});
                                 handleDisconnect={handleDisconnectDevice}
                             />
                         ))}
-                        {
-                            (rightShoe && leftShoe) && (<TouchableOpacity style={{ backgroundColor: 'green', flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100 }}
+                        
+
+                        <View style={{marginTop: 100}}>
+                        
+                        { 
+                            devices.left.connected?
+
+                            <TouchableOpacity style={{ backgroundColor: colors.glassEffect, flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}
+                                onPress={() => navigation.navigate('rawData', {shoe: 'left'})}>
+                                <Text style={{ color: 'white', padding: 10 }}>
+                                    Left Raw Data
+                                </Text>
+                            </TouchableOpacity>
+
+                            : ""
+                        }
+
+
+                        { 
+                            devices.right.connected?
+                            <TouchableOpacity style={{ backgroundColor: colors.glassEffect, flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}
+                            onPress={() => navigation.navigate('rawData', {shoe: 'right'})}>
+                                <Text style={{ color: 'white', padding: 10 }}>
+                                    Right Raw Data
+                                </Text>
+                            </TouchableOpacity>
+
+                            : ""
+                        }
+
+                        { 
+                            devices.left.connected && devices.right.connected?
+
+                            <TouchableOpacity style={{ backgroundColor: colors.glassEffect, flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}
                                 onPress={() => navigation.navigate('HealthAnalyzer')}>
                                 <Text style={{ color: 'white', padding: 10 }}>
-                                    GET DATA
+                                    Get Data
                                 </Text>
-                            </TouchableOpacity>)
+                            </TouchableOpacity>
+
+                            : ""
                         }
+                        </View>
+
+                        
+                        
+
+                        
 
 
                     </ScrollView>

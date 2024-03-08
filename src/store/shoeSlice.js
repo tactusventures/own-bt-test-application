@@ -20,13 +20,12 @@ export const shoeSlice = createSlice({
         setLeftDevice: (state, action) => { 
            
             state.left.connected = action.payload.status;
-            state.left.device = action.payload.device; 
+            state.left.device = action.payload.device;
         }, 
 
-        setRightDevice: (state, action) => { 
-
+        setRightDevice: (state, action) => {
             state.right.connected = action.payload.status;
-            state.right.device = action.payload.device; 
+            state.right.device = action.payload.device;
         }, 
 
         disconnectRight: (state, action) => { 
