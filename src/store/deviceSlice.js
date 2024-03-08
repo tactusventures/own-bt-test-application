@@ -23,5 +23,5 @@ const deviceSlice = createSlice({
 }); 
 
 
-export const {setLeftDevice}  = deviceSlice.actions; 
+export const {setLeftDevice} = deviceSlice.actions; 
 export default deviceSlice.reducer; 

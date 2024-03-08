@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { manager } from '../utils/bluetooth/bluetoothManager';
 import AddDevice from '../screens/AddDevice';
 import HealthAnalyzer from '../screens/HealthAnalyzer';
@@ -14,6 +14,7 @@ const Stack = createStackNavigator();
 
 const NavigationProvider = () => {
     const dispatch = useDispatch();
+    const devices = useSelector(state => state.shoes); 
 
     manager.onStateChange(async (state) => {
         console.log(state); 
@@ -31,22 +32,18 @@ const NavigationProvider = () => {
 
 
     manager.onDeviceDisconnected(async (deviceId) => {
+        console.log('disconnected', deviceId); 
         try {
-            let data = await AsyncStorage.getItem('shoes');
-            data = JSON.parse(data);
-            if (data == null) return;
-            if (data.left.device === deviceId) {
-                data.left.connected = false;
-                dispatch(disconnectLeft());
+            
+            if (devices.left && devices.left.connected && devices.left.device.id === deviceId) {
+
+                dispatch(disconnectLeft()); 
             }
-            else if (data.right.device === deviceId) {
-                data.right.connected = false;
+            else if (devices.right && devices.right.connected && devices.right.device.id === deviceId) {
+               
                 dispatch(disconnectRight());
             }
 
-
-            // set again
-            await AsyncStorage.setItem('shoes', JSON.stringify(data));
 
         } catch (e) {
             // navigate to something went wrong's page

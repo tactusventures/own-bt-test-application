@@ -75,8 +75,8 @@ const MeasureBpm = ({ route }) => {
 
                 console.log({ rightWeight });
                 setTotalWeight(rightWeight + leftWeight);
-                console.log(totaWeight, ':total');
-                updateUi(totaWeight);
+            
+                updateUi(leftWeight + data["Data"]["Weight"]);
               } catch (error) {
                 console.log(error);
               }

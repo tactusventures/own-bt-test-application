@@ -68,7 +68,7 @@ const AddDevice = () => {
     }
 
     const handleConnectDevice = async (deviceId) => {
-console.log({deviceId});
+        console.log({deviceId});
         // connect the device here
         setConnectingDevice({
             connectionStatus: 'connecting',
@@ -86,7 +86,7 @@ console.log({deviceId});
 
             for (const service of discoveredServices) {
                 console.log('Service UUID:', service.uuid);
-
+                
                 const characteristics = await service.characteristics();
                 for (const characteristic of characteristics) {
 
@@ -151,7 +151,7 @@ console.log({deviceId});
                             shoesData.right.connected = true;
                             shoesData.right.device = currentDevice;
                             dispatch(setRightDevice({ status: true, device: currentDevice }));
-                            true;
+
                         }
 
                         subscription.remove();
@@ -168,7 +168,7 @@ console.log({deviceId});
                             shoesData.left.connected = true;
                             shoesData.left.device = currentDevice;
                             dispatch(setLeftDevice({ status: true, device: currentDevice }));
-                            true;
+                            
                         }
                         subscription.remove();
 
@@ -249,12 +249,14 @@ console.log({deviceId});
                             alignItems: 'center',
                             flexDirection: 'row',
                         }}>
+
                         <View
                             style={{
                                 width: '50%',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                             }}>
+
                             <Image
                                 source={images.leftShoe}
                                 style={styles.shoeImg}
@@ -283,7 +285,6 @@ console.log({deviceId});
                             label="Scan"
                             onPress={handleEnableBluetoothAndScan}
                             isLoading={isDeviceScanning}
-
                         />
                     </View>
                     <ScrollView contentContainerStyle={{ flex: 1, paddingHorizontal: 8 }}>
