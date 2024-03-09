@@ -196,19 +196,26 @@ const AddDevice = () => {
 
                     }
 
-                    // setConnectingDevice({
-                    //     connectionStatus: null,
-                    //     deviceId: null
-                    // });
+                   if(isSeted){ 
+                        currentDevice.onDisconnected((err, disconnectedDevice) => { 
+                            if(err) return; 
 
+                            setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != deviceId));
+                            if (devices?.left?.device?.id === disconnectedDevice.id) {
+                                // data.left.connected = false;
+                                dispatch(disconnectLeft());
+                            }
+            
+                            else if (devices?.right?.device?.id === disconnectedDevice.id) {
+                                // data.right.connected = false;
+                                dispatch(disconnectRight());
+                            }
+            
+                        }); 
+                   }
                     setAllDevices((devices) => devices.filter((device) => device.id !== currentDevice.id))
                 } catch (e) {
                     console.log(e);
-
-                    // setConnectingDevice({
-                    //     connectionStatus: null,
-                    //     deviceId: null
-                    // })
                 }
 
 
@@ -233,16 +240,16 @@ const AddDevice = () => {
 
 
                 setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != deviceId));
-                 
-                if (devices?.left?.device?.id === deviceId) {
-                    // data.left.connected = false;
-                    dispatch(disconnectLeft());
-                }
 
-                else if (devices?.right?.device?.id === deviceId) {
-                    // data.right.connected = false;
-                    dispatch(disconnectRight());
-                }
+                // if (devices?.left?.device?.id === deviceId) {
+                //     // data.left.connected = false;
+                //     dispatch(disconnectLeft());
+                // }
+
+                // else if (devices?.right?.device?.id === deviceId) {
+                //     // data.right.connected = false;
+                //     dispatch(disconnectRight());
+                // }
 
                 await AsyncStorage.setItem('shoes', JSON.stringify(data));
 
