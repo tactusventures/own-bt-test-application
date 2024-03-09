@@ -29,10 +29,15 @@ const AddDevice = () => {
 
     const [isDeviceScanning, setIsDeviceScanning] = useState(false);
     const [allDevices, setAllDevices] = useState([]);
-    const [connectingDevice, setConnectingDevice] = useState({
-        connectionStatus: null,
-        deviceId: null
-    });
+    const [connctingDevices, setConnectingDevices] = useState([]); 
+    
+    // const [connectingDevice, setConnectingDevice] = useState({
+    //     connectionStatus: null,
+    //     deviceId: null
+    // });
+
+
+
 
     const [leftShoe, setLeftShoe] = useState(devices.left);
     const [rightShoe, setRightShoe] = useState(devices.right);
@@ -42,8 +47,15 @@ const AddDevice = () => {
 
     const handleEnableBluetoothAndScan = () => {
         let granted = requestBluetoothPermission();
-
         setAllDevices([]);
+
+        // stop scanning if already scanning 
+        if(isDeviceScanning){  
+            setIsDeviceScanning(false); 
+            manager.stopDeviceScan(); 
+            return; 
+        }
+
 
         setIsDeviceScanning(true);
         let uniqueDeviceIds = new Set();
@@ -68,17 +80,24 @@ const AddDevice = () => {
     }
 
     const handleConnectDevice = async (deviceId) => {
-        console.log({deviceId});
+      
         // connect the device here
-        setConnectingDevice({
-            connectionStatus: 'connecting',
-            deviceId: deviceId
-        });
+        // setConnectingDevice({
+        //     connectionStatus: 'connecting',
+        //     deviceId: deviceId
+        // });
+
+
+
+        // setConnectingDevice((connectingDevices) =>  connectingDevices.add(deviceId)); 
+        setConnectingDevices(() => [...connctingDevices, deviceId]); 
+
+
 
         // get device from all devices with id
         let filterDevices = allDevices.filter(device => device.id === deviceId);
         let currentDevice = filterDevices[0];
-        console.log(currentDevice);
+      
         try {
             await currentDevice.connect();
             await currentDevice.discoverAllServicesAndCharacteristics();
@@ -126,10 +145,10 @@ const AddDevice = () => {
             await manager.requestMTUForDevice(deviceId, 517);
             subscription = currentDevice.monitorCharacteristicForService("6e400001-b5a3-f393-e0a9-e50e24dcca9e", "6e400003-b5a3-f393-e0a9-e50e24dcca9e", async (err, characterstic) => {
                 if (err) {
-                    setConnectingDevice({
-                        connectionStatus: null,
-                        deviceId: null
-                    })
+                    // setConnectingDevice({
+                    //     connectionStatus: null,
+                    //     deviceId: null
+                    // })
                     return;
                 }
 
@@ -151,10 +170,11 @@ const AddDevice = () => {
                             shoesData.right.connected = true;
                             shoesData.right.device = currentDevice;
                             dispatch(setRightDevice({ status: true, device: currentDevice }));
-
+                            subscription.remove();
+                            setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != currentDevice.id)); 
+                            isSeted = true; 
                         }
 
-                        subscription.remove();
                     }
                     else {
                         // if (shoesData.left.connected) {
@@ -168,35 +188,37 @@ const AddDevice = () => {
                             shoesData.left.connected = true;
                             shoesData.left.device = currentDevice;
                             dispatch(setLeftDevice({ status: true, device: currentDevice }));
-                            
+                            subscription.remove();    
+                       
+                          
+                            isSeted = true;
                         }
-                        subscription.remove();
 
                     }
 
-                    setConnectingDevice({
-                        connectionStatus: null,
-                        deviceId: null
-                    });
+                    // setConnectingDevice({
+                    //     connectionStatus: null,
+                    //     deviceId: null
+                    // });
 
                     setAllDevices((devices) => devices.filter((device) => device.id !== currentDevice.id))
                 } catch (e) {
                     console.log(e);
 
-                    setConnectingDevice({
-                        connectionStatus: null,
-                        deviceId: null
-                    })
+                    // setConnectingDevice({
+                    //     connectionStatus: null,
+                    //     deviceId: null
+                    // })
                 }
 
 
             });
 
         } catch (error) {
-            setConnectingDevice({
-                connectionStatus: null,
-                deviceId: null
-            })
+            // setConnectingDevice({
+            //     connectionStatus: null,
+            //     deviceId: null
+            // })
         }
     };
 
@@ -207,8 +229,11 @@ const AddDevice = () => {
                 data = JSON.parse(data);
 
                 // if(data == null) return;
+              
 
 
+                setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != deviceId));
+                 
                 if (devices?.left?.device?.id === deviceId) {
                     // data.left.connected = false;
                     dispatch(disconnectLeft());
@@ -241,7 +266,7 @@ const AddDevice = () => {
                 end={{ x: 1, y: 1 }}
                 colors={['#171717cc', '#171717cc', '#171717']}
                 style={styles.mainContent}>
-                {/* <Header /> */}
+                 
                 <ScrollView contentContainerStyle={styles.mainContainer}>
                     <View
                         style={{
@@ -334,7 +359,7 @@ const AddDevice = () => {
                             <BluetoothDeviceListItem
                                 key={item.id}
                                 device={item}
-                                connectingDevice={connectingDevice}
+                                connectingDevice={connctingDevices}
                                 handleConnect={handleConnectDevice}
                                 handleDisconnect={handleDisconnectDevice}
                             />
@@ -424,7 +449,8 @@ const BluetoothDeviceListItem = ({
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: colors.glassEffect, borderRadius: 4, paddingHorizontal: 10 }}>
                 <Text style={styles.deviceNames}>{device.name}</Text>
                 {
-                    connectingDevice.deviceId === device.id ? <Loader /> : ""
+                    // connectingDevice.has(device.id) ? <Loader /> : ""
+                    connectingDevice.find((id) => id === device.id ) ? <Loader /> :""
                 }
             </View>
         </TouchableOpacity>

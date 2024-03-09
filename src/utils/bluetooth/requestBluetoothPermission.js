@@ -8,17 +8,17 @@ const requestBluetoothPermission = async () => {
     }
     console.log(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION); 
     if (Platform.OS === 'android' && PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION) {
-      console.log('went inside android'); 
+     
       const apiLevel = parseInt(Platform.Version.toString(), 10)
   
       if (apiLevel < 31) {
-        console.log('less than 31');
+      
         const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
         return granted === PermissionsAndroid.RESULTS.GRANTED
       }
 
       if (PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN && PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT) {
-        console.log('bluetooth permission'); 
+       
         const result = await PermissionsAndroid.requestMultiple([
           PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
           PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
@@ -32,9 +32,7 @@ const requestBluetoothPermission = async () => {
         )
       }
     }
-    
-    console.log('came out'); 
-    console.warn('Permissions denied by User'); 
+
   
     return false
   }

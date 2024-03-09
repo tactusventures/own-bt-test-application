@@ -28,6 +28,15 @@ const MeasureBpm = ({ route }) => {
     setSensorData(roundedFigure);
   };
 
+
+  const saveLeftWeight = (weight) => { 
+    setLeftWeight(weight); 
+  }
+
+  const saveRightWeight = (weight) => { 
+    setRightWeight(weight); 
+  }
+
   useEffect(() => {
     let subscription, leftSubscription, rightSubscription;
     const measureParameters = () => {
@@ -48,7 +57,7 @@ const MeasureBpm = ({ route }) => {
             try {
               data = JSON.parse(data);
               console.log('left:', data['Data']['Weight']);
-              setLeftWeight(Number(data['Data']['Weight']));
+              saveLeftWeight(Number(data['Data']['Weight']));
               console.log({ leftWeight });
             } catch (error) {
               console.log(error);
@@ -71,12 +80,12 @@ const MeasureBpm = ({ route }) => {
                 data = JSON.parse(data);
                 console.log('right:', data['Data']['Weight']);
 
-                setRightWeight(data['Data']['Weight']);
+                saveRightWeight(data['Data']['Weight']);
 
                 console.log({ rightWeight });
-                setTotalWeight(rightWeight + leftWeight);
+                // setTotalWeight(rightWeight + leftWeight);
             
-                updateUi(leftWeight + data["Data"]["Weight"]);
+                // updateUi(leftWeight + data["Data"]["Weight"]);
               } catch (error) {
                 console.log(error);
               }
@@ -149,8 +158,15 @@ const MeasureBpm = ({ route }) => {
             <Text style={styles.monitorTitle}>{selectedItem.title}</Text>
           </View>
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
+            <Text style={{color: 'white'}}>
+              {
+                selectedItem.title === 'weight'? "Left \ : " + leftWeight + "  Right : "+ rightWeight:""
+              }
+            </Text>
             <Text style={{fontWeight:'700', fontSize: 90, color: 'white'}}>
-             {sensorData}
+             {/* {sensorData} */}
+
+             { selectedItem.title === 'weight'? leftWeight + rightWeight: sensorData}
             </Text>
           </View>
           {/* 
