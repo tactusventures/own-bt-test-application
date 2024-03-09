@@ -21,6 +21,9 @@ import { decode } from 'base-64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import requestBluetoothPermission from '../utils/bluetooth/requestBluetoothPermission';
 import { CustomButton, Header, Loader } from '../component';
+import { showToastError } from '../utils/Toast';
+
+
 
 const AddDevice = () => {
     let devices = useSelector((state) => state.shoes);
@@ -48,7 +51,7 @@ const AddDevice = () => {
     const handleEnableBluetoothAndScan = () => {
         let granted = requestBluetoothPermission();
         setAllDevices([]);
-
+        setConnectingDevices([]); 
         // stop scanning if already scanning 
         if(isDeviceScanning){  
             setIsDeviceScanning(false); 
@@ -81,18 +84,8 @@ const AddDevice = () => {
 
     const handleConnectDevice = async (deviceId) => {
       
-        // connect the device here
-        // setConnectingDevice({
-        //     connectionStatus: 'connecting',
-        //     deviceId: deviceId
-        // });
-
-
-
-        // setConnectingDevice((connectingDevices) =>  connectingDevices.add(deviceId)); 
+    
         setConnectingDevices(() => [...connctingDevices, deviceId]); 
-
-
 
         // get device from all devices with id
         let filterDevices = allDevices.filter(device => device.id === deviceId);
@@ -113,14 +106,13 @@ const AddDevice = () => {
             }
 
             let data;
-            let parsedData;
             let shoesData;
 
             try {
                 shoesData = await AsyncStorage.getItem('shoes');
                 shoesData = JSON.parse(shoesData);
             } catch (e) {
-                // navigate to error page or popup error
+               
             }
 
             if (!shoesData) {
@@ -138,17 +130,15 @@ const AddDevice = () => {
             }
 
             if (shoesData.left.connected && shoesData.right.connected) {
-                // show alert to them
+               
             }
 
             let isSeted = false;
             await manager.requestMTUForDevice(deviceId, 517);
             subscription = currentDevice.monitorCharacteristicForService("6e400001-b5a3-f393-e0a9-e50e24dcca9e", "6e400003-b5a3-f393-e0a9-e50e24dcca9e", async (err, characterstic) => {
                 if (err) {
-                    // setConnectingDevice({
-                    //     connectionStatus: null,
-                    //     deviceId: null
-                    // })
+                setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != currentDevice.id)); 
+                    
                     return;
                 }
 
@@ -200,17 +190,19 @@ const AddDevice = () => {
                         currentDevice.onDisconnected((err, disconnectedDevice) => { 
                             if(err) return; 
 
-                            setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != deviceId));
                             if (devices?.left?.device?.id === disconnectedDevice.id) {
                                 // data.left.connected = false;
                                 dispatch(disconnectLeft());
+                                showToastError({
+                                    message: "Left Shoe Disconnected"
+                                })
                             }
             
                             else if (devices?.right?.device?.id === disconnectedDevice.id) {
                                 // data.right.connected = false;
                                 dispatch(disconnectRight());
                             }
-            
+
                         }); 
                    }
                     setAllDevices((devices) => devices.filter((device) => device.id !== currentDevice.id))
@@ -222,24 +214,14 @@ const AddDevice = () => {
             });
 
         } catch (error) {
-            // setConnectingDevice({
-            //     connectionStatus: null,
-            //     deviceId: null
-            // })
+            setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != currentDevice.id)); 
         }
     };
 
     const handleDisconnectDevice = async deviceId => {
         manager.cancelDeviceConnection(deviceId).then(async () => {
             try {
-                let data = await AsyncStorage.getItem('shoes');
-                data = JSON.parse(data);
-
-                // if(data == null) return;
               
-
-
-                setConnectingDevices((prevDevices) => prevDevices.filter((device) => device != deviceId));
 
                 // if (devices?.left?.device?.id === deviceId) {
                 //     // data.left.connected = false;
@@ -251,14 +233,10 @@ const AddDevice = () => {
                 //     dispatch(disconnectRight());
                 // }
 
-                await AsyncStorage.setItem('shoes', JSON.stringify(data));
 
             } catch (error) {
-                // navigate to something went wrong's page
+               
             }
-        }).catch((error) => {
-            console.log(error);
-            console.log('something went wrong');
         })
     }
 
