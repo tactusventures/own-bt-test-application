@@ -29,12 +29,12 @@ const MeasureBpm = ({ route }) => {
   };
 
 
-  const saveLeftWeight = (weight) => { 
-    setLeftWeight(weight); 
+  const saveLeftWeight = (weight) => {
+    setLeftWeight(weight);
   }
 
-  const saveRightWeight = (weight) => { 
-    setRightWeight(weight); 
+  const saveRightWeight = (weight) => {
+    setRightWeight(weight);
   }
 
   useEffect(() => {
@@ -57,7 +57,11 @@ const MeasureBpm = ({ route }) => {
             try {
               data = JSON.parse(data);
               console.log('left:', data['Data']['Weight']);
-              saveLeftWeight(Number(data['Data']['Weight']));
+              if (data['Data']['Weight'] == undefined || data['Data']['Weight'] <= 0) {
+                saveLeftWeight(0)
+              } else {
+                saveLeftWeight(Number(data['Data']['Weight']));
+              }
               console.log({ leftWeight });
             } catch (error) {
               console.log(error);
@@ -79,12 +83,17 @@ const MeasureBpm = ({ route }) => {
               try {
                 data = JSON.parse(data);
                 console.log('right:', data['Data']['Weight']);
+                if (data['Data']['Weight'] == undefined || data['Data']['Weight'] <= 0) {
+                  console.log('undefined right');
+                  saveRightWeight(0)
+                } else {
 
-                saveRightWeight(data['Data']['Weight']);
+                  saveRightWeight(Number(data['Data']['Weight']));
+                }
 
                 console.log({ rightWeight });
                 // setTotalWeight(rightWeight + leftWeight);
-            
+
                 // updateUi(leftWeight + data["Data"]["Weight"]);
               } catch (error) {
                 console.log(error);
@@ -98,7 +107,7 @@ const MeasureBpm = ({ route }) => {
           '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
           '6e400003-b5a3-f393-e0a9-e50e24dcca9e',
           async (err, characterstic) => {
-            
+
             if (err) {
               console.log(err, ':left Error');
               return;
@@ -115,7 +124,7 @@ const MeasureBpm = ({ route }) => {
                 console.log(data['Data']);
                 updateUi(data['Data']['Spo2']);
               } else if (selectedItem.title === 'temprature') {
-                console.log(data["Data"]["Temp"]); 
+                console.log(data["Data"]["Temp"]);
                 updateUi(data['Data']['Temp']);
               }
             } catch (error) {
@@ -155,19 +164,19 @@ const MeasureBpm = ({ route }) => {
         <Header />
         <ScrollView contentContainerStyle={styles.contentContainerStyle}>
           <View style={styles.monitorTitleInfo}>
-           
+
             <Text style={styles.monitorTitle}>{selectedItem.title}</Text>
           </View>
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100}}>
-            <Text style={{color: 'white'}}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 100 }}>
+            <Text style={{ color: 'white' }}>
               {
-                selectedItem.title === 'weight'? "Left \ : " + leftWeight + "  Right : "+ rightWeight:""
+                selectedItem.title === 'weight' ? "Left \ : " + leftWeight + "  Right : " + rightWeight : ""
               }
             </Text>
-            <Text style={{fontWeight:'700', fontSize: 90, color: 'white'}}>
-             {/* {sensorData} */}
+            <Text style={{ fontWeight: '700', fontSize: 90, color: 'white' }}>
+              {/* {sensorData} */}
 
-             { selectedItem.title === 'weight'? leftWeight + rightWeight: sensorData}
+              {selectedItem.title === 'weight' ? leftWeight + rightWeight : sensorData}
             </Text>
           </View>
           {/* 

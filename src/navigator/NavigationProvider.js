@@ -30,7 +30,7 @@ const NavigationProvider = () => {
         }
     });
 
-    manager.onDisconnected
+
 
     manager.onDeviceDisconnected(async (deviceId) => {
         console.log('disconnected', deviceId); 
