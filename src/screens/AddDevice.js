@@ -21,7 +21,7 @@ import { decode } from 'base-64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import requestBluetoothPermission from '../utils/bluetooth/requestBluetoothPermission';
 import { CustomButton, Header, Loader } from '../component';
-import { showToastError } from '../utils/Toast';
+import { showToastError, showToastSuccess } from '../utils/Toast';
 
 
 
@@ -179,8 +179,9 @@ const AddDevice = () => {
                             shoesData.left.device = currentDevice;
                             dispatch(setLeftDevice({ status: true, device: currentDevice }));
                             subscription.remove();    
-                       
-                          
+
+                           
+
                             isSeted = true;
                         }
 

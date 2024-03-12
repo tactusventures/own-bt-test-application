@@ -176,7 +176,7 @@ const MeasureBpm = ({ route }) => {
             <Text style={{ fontWeight: '700', fontSize: 90, color: 'white' }}>
               {/* {sensorData} */}
 
-              {selectedItem.title === 'weight' ? leftWeight + rightWeight : sensorData}
+             { selectedItem.title === 'weight'? Number((leftWeight + rightWeight) / 1000) : sensorData}
             </Text>
           </View>
           {/* 
