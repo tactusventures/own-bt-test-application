@@ -1,5 +1,5 @@
 import Toast from 'react-native-toast-message';
-
+ 
 const showToast = ({
   type = "info",
   message = '',
@@ -13,7 +13,7 @@ const showToast = ({
     position,
   });
 };
-
+ 
 const showToastError = ({
   type = "error",
   message = '',
@@ -27,7 +27,7 @@ const showToastError = ({
     position,
   });
 };
-
+ 
 const showToastSuccess = ({
   type = "success",
   message = '',
@@ -41,9 +41,9 @@ const showToastSuccess = ({
     position,
   });
 };
-
+ 
 const hideToast = () => {
   Toast.hide();
 };
-
+ 
 export {showToast, hideToast, showToastSuccess, showToastError};
