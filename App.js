@@ -4,17 +4,18 @@ import NavigationProvider from "./src/navigator/NavigationProvider";
 import BleManager from 'react-native-ble-manager';
 import { PersistGate } from "redux-persist/integration/react";
 
-BleManager.start({showAlert: false});
+
+BleManager.start({ showAlert: false });
 
 const App = () => {
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationProvider/>
+        <NavigationProvider />
       </PersistGate>
     </Provider>
-  ); 
+  );
 };
 
 export default App;

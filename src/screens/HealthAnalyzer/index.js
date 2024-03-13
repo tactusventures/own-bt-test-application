@@ -6,17 +6,18 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import { Header} from '../../component/index';
-import {useNavigation} from '@react-navigation/native';
+import { Header } from '../../component/index';
+import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import {ms, s} from '../../utils/sizeMatters';
+import { ms, s } from '../../utils/sizeMatters';
 import CustomButton from '../../component/CustomButton';
 import images from '../../../assets/images';
 import colors from '../../utils/color';
-import {styles} from './styles';
+import { styles } from './styles';
 import data from './data';
 import fonts from '../../utils/fonts';
-import {labels} from '../../config/language';
+import { labels } from '../../config/language';
+import StatusIndicator from '../../component/statusIndicator';
 
 const HealthAnalyzer = () => {
   const buttons = [
@@ -43,7 +44,7 @@ const HealthAnalyzer = () => {
     const selectedItem = data.find(dataItem => dataItem.title === title);
     if (selectedItem) {
       console.log(selectedItem);
-      navigation.navigate('MeasureBpm', {selectedItem});
+      navigation.navigate('MeasureBpm', { selectedItem });
       // navigation.navigate('MonitorMesurement', {selectedItem});
     } else {
       console.log(`Data not found for ${title}`);
@@ -54,10 +55,10 @@ const HealthAnalyzer = () => {
     <>
       <StatusBar backgroundColor="#000" barStyle="light-content" />
       <LinearGradient
-        start={{x: 1, y: 0}}
-        end={{x: 1, y: 1}}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 1, y: 1 }}
         colors={['#171717cc', '#171717cc', '#171717']}
-        style={{flex: 1}}>
+        style={{ flex: 1 }}>
         <Header showBack />
         <ScrollView contentContainerStyle={styles.wrapper}>
           <Image
@@ -78,13 +79,16 @@ const HealthAnalyzer = () => {
                 <CustomButton
                   key={item.key}
                   label={item.title}
-                  style={{width: s(260)}}
+                  style={{ width: s(260) }}
                   onPress={() => handleNavigation(item.title)}
                 />
               ))}
             </View>
           </View>
         </ScrollView>
+        <View style={{ position: 'absolute', right: 0,  top: 720 }}>
+          <StatusIndicator />
+        </View>
       </LinearGradient>
     </>
   );

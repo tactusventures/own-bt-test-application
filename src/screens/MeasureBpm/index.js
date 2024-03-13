@@ -11,6 +11,7 @@ import styles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { decode } from 'base-64';
 import { labels } from '../../config/language';
+import StatusIndicator from '../../component/statusIndicator';
 // import CustomCircularProgressBarWithTitle from '../../component/CustomCircularProgressBarWithTitle';
 
 const MeasureBpm = ({ route }) => {
@@ -176,7 +177,7 @@ const MeasureBpm = ({ route }) => {
             <Text style={{ fontWeight: '700', fontSize: 90, color: 'white' }}>
               {/* {sensorData} */}
 
-             { selectedItem.title === 'weight'? Number((leftWeight + rightWeight) / 1000) : sensorData}
+              {selectedItem.title === 'weight' ? Number((leftWeight + rightWeight) / 1000) : sensorData}
             </Text>
           </View>
           {/* 
@@ -211,6 +212,9 @@ const MeasureBpm = ({ route }) => {
             />
           </View>
         </ScrollView>
+        <View style={{ position: 'absolute', right: 0,  top: 650 }}>
+          <StatusIndicator />
+        </View>
       </LinearGradient>
     </>
   );
