@@ -28,7 +28,7 @@ import { decode } from 'base-64';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import requestBluetoothPermission from '../utils/bluetooth/requestBluetoothPermission';
 import { CustomButton, Header, Loader } from '../component';
-import { showToastSuccess, showToastError } from '../utils/Toast';
+import { showToastSuccess, showToastError } from '../utils/toast';
 import fonts from '../utils/fonts';
 import Toast from 'react-native-toast-message';
 import lodash from 'lodash'
