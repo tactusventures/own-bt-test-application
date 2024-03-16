@@ -585,7 +585,10 @@ const BluetoothDeviceListItem = ({
                     paddingHorizontal: 10,
                 }}>
                 <Text style={styles.deviceNames}>{device.name}</Text>
-                {connectingDevice.deviceId === device.id ? <Loader /> : ''}
+                {
+                    // connectingDevice.has(device.id) ? <Loader /> : ""
+                    connectingDevice.find((id) => id === device.id ) ? <Loader /> :""
+                }
             </View>
         </TouchableOpacity>
     );
